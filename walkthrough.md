@@ -1,75 +1,61 @@
-# Walkthrough: 2D Graphics Editor in C
+# Walkthrough - Advanced 2D Graphics Editor
 
-We have successfully designed, implemented, and verified the menu-driven 2D Graphics Editor in C. The editor allows users to interactively add, modify, delete, and display shapes on a 2D ASCII canvas.
+We have successfully designed, implemented, and verified the Advanced 2D Graphics Editor.
 
 ## Changes Made
 
-### 1. Created [editor.c](file:///c:/Users/harpr/OneDrive/Documents/Desktop/ACP%20project/editor.c)
-- **Canvas System**:
-  - Implemented a 2D character array of size 20 rows by 60 columns.
-  - Initialized with `_` representing empty space and `*` representing pixels drawn by shapes.
-- **Rendering & Math**:
-  - **Bresenham's Line Algorithm**: Implemented for drawing high-precision pixel lines.
-  - **Bresenham's Midpoint Circle Algorithm**: Implemented to render smooth circle outlines without floating point math.
-  - **Rectangle Draw**: Draws top, bottom, left, and right lines outlining a bounding box.
-  - **Triangle Draw**: Connects 3 vertices using 3 line drawing operations.
-- **Shape Management**:
-  - Employs a vector-like structure list to track active shapes.
-  - Supports adding shapes, listing active shapes, modifying parameters by shape ID, and deleting shapes by ID.
-  - Each edit clears the canvas and redraws active shapes, enabling simple delete and modify operations.
-- **Aesthetic Enhancements**:
-  - Styled using ANSI escape codes: borders are colored in cyan, shapes in bright yellow, empty spaces in dimmed gray, and menus/errors in distinct, readable colors.
-  - Added Windows Console virtual terminal processing initialization so ANSI colors render correctly on Windows CLI.
+### 1. Main C Editor: [editor.c](file:///c:/Users/harpr/OneDrive/Documents/Desktop/ACP%20project/editor.c)
+- **8-Shape Drawing Core**:
+  - **Line**: Bresenham's line algorithm.
+  - **Rectangle**: Outlines borders using horizontal and vertical coordinates.
+  - **Circle**: Bresenham's Midpoint Circle Algorithm.
+  - **Triangle**: Outlines by connecting three arbitrary coordinate points.
+  - **Diamond**: Outlines using 4 diagonal lines centered around a point.
+  - **Square**: Outlines a square using the core rectangle method with equal width and height.
+  - **Right Triangle**: Draws horizontal base, vertical height, and connecting diagonal hypotenuse.
+  - **Filled Rectangle**: Uses nested loops to fill the bounds of a rectangle with `*`.
+- **Comprehensive Database Operations**:
+  - **Add Shape**: Asks shape parameters and assigns an incremental ID.
+  - **Delete Shape**: Removes shapes by ID and shifts the array.
+  - **Modify Shape**: Rewrites coordinates/sizes for an existing shape ID.
+  - **Move Shape**: Shifts coordinates of any shape to a new location.
+  - **Resize Shape**: Changes size parameters (radius, side, width, height) of an existing shape.
+  - **Clear Canvas**: Resets the database, removing all shapes.
+  - **List Shapes**: Lists details of all drawn shapes.
+  - **Display Canvas**: Re-renders the canvas with borders and ANSI colors.
+- **Beginner-Friendly Architecture**:
+  - Employs a flat structure `Shape` avoiding pointers and unions.
+  - Features robust integer validation using custom buffer reads.
+
+### 2. Optional Enhancement: [editor_ncurses.c](file:///c:/Users/harpr/OneDrive/Documents/Desktop/ACP%20project/editor_ncurses.c)
+- A Linux-based split-window Terminal UI (TUI).
+- Uses `ncurses.h` for window handling, custom key listeners (`a` to add, `d` to delete, `m` to move, `r` to resize, `l` to list, `c` to clear, `q` to quit), and live drawing displays.
+
+### 3. Automated Test Suite: [test_input.txt](file:///c:/Users/harpr/OneDrive/Documents/Desktop/ACP%20project/test_input.txt)
+- Simulated menu keystrokes to draw all 8 shapes, list them, render them, perform move/resize shifts, verify deletion/clearing, and exit.
+
+### 4. Semester Report: [report.md](file:///c:/Users/harpr/OneDrive/Documents/Desktop/ACP%20project/report.md)
+- Contains all 11 required sections including Problem Statement, Algorithms (pseudo-code), Data Structures, Function Descriptions, and Limitations.
 
 ---
 
-## Compilation
+## Compilation & Verification
 
-The project compiles on Windows with the self-contained LLVM Clang compiler:
+### Compilation on Windows
+The project compiles with standard compilers:
 ```cmd
 & "C:\Users\harpr\AppData\Local\Microsoft\WinGet\Packages\MartinStorsjo.LLVM-MinGW.UCRT_Microsoft.Winget.Source_8wekyb3d8bbwe\llvm-mingw-20260602-ucrt-x86_64\bin\clang.exe" -O2 editor.c -o editor.exe
 ```
 
----
-
-## Validation Results
-
-We performed automated keyboard-simulation tests by feeding a sequence of inputs to `editor.exe`. 
-
-### 1. Canvas Rendering with Multiple Shapes
-When we added a line, rectangle, circle, and triangle to the canvas:
-- The line, rectangle, and triangle rendered precisely.
-- Overlapping regions merged naturally on the canvas.
-- Display output was highlighted with color (bright yellow for `*` and dark gray for `_`).
-
-### 2. Modifying Shapes
-- We successfully modified Shape ID 2 (Rectangle) from `Top-Left (5, 2), Width 12, Height 6` to `Top-Left (10, 5), Width 8, Height 4`.
-- The canvas recalculated the pixels automatically.
-
-### 3. Deleting Shapes
-- We successfully deleted Shape ID 3 (Circle).
-- The circle was removed from the active list, and the canvas was re-rendered, leaving other shapes intact.
-
----
-
-## How to Run & Interact
-
-1. In PowerShell or Command Prompt, run the executable:
-   ```cmd
-   .\editor.exe
-   ```
-2. You will be greeted with a visual menu:
-   ```
-   ==================================
-         ASCII 2D GRAPHICS EDITOR    
-   ==================================
-   1. Add a Shape
-   2. Modify an Existing Shape
-   3. Delete a Shape
-   4. Display Canvas
-   5. List Active Shapes
-   6. Exit
-   ----------------------------------
-   Select Option (1-6):
-   ```
-3. Use the menu choices to build your drawing and view it using Option 4.
+### Verification Results
+We ran the compiled binary with `test_input.txt` to verify execution:
+```cmd
+cmd.exe /c "editor.exe < test_input.txt"
+```
+1. **Creation**: All 8 shapes successfully registered inside the shape array database (IDs 1 through 8).
+2. **Moving**: Shape 2 (Rectangle) shifted from `(5, 2)` to `(10, 5)`.
+3. **Resizing**: Shape 3 (Circle) radius updated from `4` to `6`.
+4. **Rendering**: Overlapping shapes (Line, Rectangle, Circle, Diamond, Square, Triangle, Filled Rectangle, Right Triangle) merged on the canvas, showing a multi-shape vector layout.
+5. **Deletion**: Circle (ID 3) was deleted, and the canvas dynamically recalculated the picture without it.
+6. **Clearing**: Canvas wiped cleanly when requested, returning "No shapes drawn yet".
+7. **Exit**: Gracefully terminated.
