@@ -1,0 +1,71 @@
+Create a complete C project for a 1st-year Computer Science Engineering semester assessment.
+
+Project Title: Advanced 2D Graphics Editor using Character Arrays
+
+Requirements:
+
+1. Use only C programming language.
+2. Implement a menu-driven program.
+3. Use a 2D character array as the drawing canvas.
+4. The canvas should initially be filled with '_' characters.
+5. Draw graphical objects using '*' characters.
+
+Implement separate functions to draw:
+
+* Rectangle
+* Circle
+* Line
+* Triangle
+* Diamond
+* Star
+* Square
+* Right Triangle
+* Hollow Rectangle
+* Hollow Circle (optional bonus)
+
+The editor should allow the user to:
+
+* Add objects to the canvas
+* Delete objects from the canvas
+* Modify existing objects
+* Move objects to a new position
+* Resize objects
+* Display the current picture
+* Clear the canvas
+* Save and reload drawings from a text file (bonus feature)
+
+Data Management:
+
+* Store all objects in structures.
+* Maintain an array of objects.
+* Assign each object a unique ID.
+* Allow editing or deleting objects using their ID.
+* Redraw the entire canvas whenever changes occur.
+
+Programming Requirements:
+
+* Use structures and arrays.
+* Use modular functions.
+* Keep the implementation beginner-friendly.
+* Include meaningful comments.
+* Avoid advanced concepts such as linked lists, dynamic memory allocation, complex algorithms, or design patterns.
+* Code should appear naturally written by a first-year student.
+
+Documentation Requirements:
+
+1. Problem Statement
+2. Objectives
+3. Algorithm
+4. Data Structures Used
+5. Complete Source Code
+6. Function Descriptions
+7. Sample Inputs and Outputs
+8. Screenshots of Program Execution
+9. Limitations
+10. Future Enhancements
+11. Conclusion
+
+Additional Requirement:
+Provide shape-drawing algorithms for Rectangle, Circle, Line, Triangle, Diamond, Star, and Square using only '*' and '_' characters on the canvas.
+
+The final project should be realistic, easy to understand, and suitable for a first-year semester assessment. The code should compile with GCC and run in a terminal window. Optionally include an ncurses-based menu version for Linux as an enhancement.
